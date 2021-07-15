@@ -38,32 +38,41 @@ public class ExecutionManagerApp extends PApplet {
     public void setup() {
         frameRate(9999);
 
-        runnables = new Runnable[4];
+        runnables = new Runnable[3];
 
-        Thread thread1 = new ThreadPimage(() -> {
-            System.out.println("thread1");
-        }, "https://1.bp.blogspot.com/-s3TxswyAegw/U4IGwpGjmlI/AAAAAAAAC9o/DLfJtqOd3ns/s1600/so-logo.jpg", this);
-        thread1.setName("sof-thread");
-        runnables[0] = thread1;
+//        Thread thread1 = new ThreadPimage(() -> {
+//            System.out.println("thread1");
+//        }, "https://1.bp.blogspot.com/-s3TxswyAegw/U4IGwpGjmlI/AAAAAAAAC9o/DLfJtqOd3ns/s1600/so-logo.jpg", this);
+//        thread1.setName("sof-thread");
+//        runnables[0] = thread1;
+//
+//        Thread thread2 = new ThreadPimage(() -> {
+//            System.out.println("thread2");
+//        }, "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png",
+//                this);
+//        thread2.setName("opencv-thread");
+//        runnables[1] = thread2;
+//
+//        Thread thread3 = new ThreadPimage(() -> {
+//            System.out.println("thread3");
+//        }, "https://images.wallpaperscraft.ru/image/kosmonavt_astronavt_skafandr_137404_3840x2400.jpg2", this);
+//        thread3.setName("4kimage-thread");
+//        runnables[2] = thread3;
 
-        Thread thread2 = new ThreadPimage(() -> {
-            System.out.println("thread2");
-        }, "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png",
-                this);
-        thread2.setName("opencv-thread");
-        runnables[1] = thread2;
+        Thread thread0 = new ThreadMagicCube(() -> {
+        }, 4);
+        thread0.setName("magiccube-thread0");
+        runnables[0] = thread0;
 
-        Thread thread3 = new ThreadPimage(() -> {
-            System.out.println("thread3");
-        }, "https://images.wallpaperscraft.ru/image/kosmonavt_astronavt_skafandr_137404_3840x2400.jpg2", this);
-        thread3.setName("4kimage-thread");
-        runnables[2] = thread3;
+        Thread thread1 = new ThreadMagicCube(() -> {
+        }, 2);
+        thread1.setName("magiccube-thread1");
+        runnables[1] = thread1;
 
-        Thread thread4 = new ThreadMagicCube(() -> {
-            System.out.println("thread4");
-        }, 3);
-        thread4.setName("magiccube-thread");
-        runnables[3] = thread4;
+        Thread thread2 = new ThreadMagicCube(() -> {
+        }, 2);
+        thread2.setName("magiccube-thread2");
+        runnables[2] = thread2;
 
         ExecutionManagerImpl manager = new ExecutionManagerImpl();
 

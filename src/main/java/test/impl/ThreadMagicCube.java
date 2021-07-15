@@ -10,6 +10,7 @@ public class ThreadMagicCube extends Thread {
 
     public ThreadMagicCube(Runnable runnable, int n) {
         super(runnable);
+        this.n = n;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ThreadMagicCube extends Thread {
     }
 
     private int[][] findMagicCude(int n) {
-        int[][] a = new int[3][3];
+        int[][] a = new int[n][n];
         boolean isMagicCube = false;
 
         while (!isMagicCube) {
@@ -43,6 +44,12 @@ public class ThreadMagicCube extends Thread {
 //                a[i][j] = 2;
                     a[i][j] = getRandom(1, 5);
                     isMagicCube = isMagicCube(a);
+                    if (isMagicCube) {
+                        break;
+                    }
+                }
+                if (isMagicCube) {
+                    break;
                 }
             }
         }
@@ -50,22 +57,16 @@ public class ThreadMagicCube extends Thread {
         return a;
     }
 
-    public void printCube() {
-        for (int i = 0; i < magicCube.length; i++) {
-            for (int j = 0; j < magicCube.length; j++) {
-                System.out.print(magicCube[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    private boolean isMagicCube(int[][] a) {
+    public void printCube(int[][] a) {
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length; j++) {
                 System.out.print(a[i][j] + " ");
             }
             System.out.println();
         }
+    }
+
+    private boolean isMagicCube(int[][] a) {
 
         int[] sumH = new int[a.length];
         int[] sumV = new int[a.length];
@@ -80,24 +81,26 @@ public class ThreadMagicCube extends Thread {
         Set<Integer> sumSet = new HashSet<>();
 
         for (int s : sumH) {
-            System.out.println("sumH = " + s);
+//            System.out.println("sumH = " + s);
             sumSet.add(s);
         }
 
         for (int s : sumV) {
-            System.out.println("sumV = " + s);
+//            System.out.println("sumV = " + s);
             sumSet.add(s);
         }
 
         sumSet.add(sumd1);
         sumSet.add(sumd2);
-        System.out.println("sumd1 = " + sumd1);
-        System.out.println("sumd2 = " + sumd2);
-
-        System.out.println(sumSet.size());
-        System.out.println();
+//        System.out.println("sumd1 = " + sumd1);
+//        System.out.println("sumd2 = " + sumd2);
+//
+//        System.out.println(sumSet.size());
+//        System.out.println();
 
         if (sumSet.size() == 1) {
+            System.out.println("find");
+            printCube(a);
             return true;
         } else {
             return false;

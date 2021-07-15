@@ -1,40 +1,17 @@
-package test.impl;
+package test.util;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ThreadMagicCube extends Thread {
-    private int timeExecution;
+public class MagicCube {
     private int[][] magicCube;
     private int n;
 
-    public ThreadMagicCube(Runnable runnable, int n) {
-        super(runnable);
+    public MagicCube(int n) {
         this.n = n;
     }
 
-    @Override
-    public void run() {
-        super.run();
-        long startTime = System.nanoTime();
-
-//        image = pApplet.loadImage(url);
-        magicCube = findMagicCude(n);
-
-        long endTime = System.nanoTime();
-        double res = (endTime - startTime) / 1000;
-        timeExecution = (int) res;
-    }
-
-    public int getTimeExecution() {
-        return timeExecution; //ms
-    }
-
-    public void setTimeExecution(int timeExecution) {
-        this.timeExecution = timeExecution;
-    }
-
-    private int[][] findMagicCude(int n) {
+    public int[][] findMagicCube() {
         int[][] a = new int[n][n];
         boolean isMagicCube = false;
 
@@ -54,6 +31,7 @@ public class ThreadMagicCube extends Thread {
             }
         }
 
+        this.magicCube = a;
         return a;
     }
 
@@ -66,7 +44,7 @@ public class ThreadMagicCube extends Thread {
         }
     }
 
-    private boolean isMagicCube(int[][] a) {
+    public boolean isMagicCube(int[][] a) {
 
         int[] sumH = new int[a.length];
         int[] sumV = new int[a.length];
@@ -148,8 +126,9 @@ public class ThreadMagicCube extends Thread {
         return sum;
     }
 
-    private static int getRandom(int min, int max) {
+    public static int getRandom(int min, int max) {
         int randomWithMathRandom = (int) ((Math.random() * (max - min)) + min);
         return randomWithMathRandom;
     }
+
 }

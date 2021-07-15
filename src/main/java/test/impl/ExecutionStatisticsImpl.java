@@ -3,7 +3,6 @@ package test.impl;
 
 import test.interfaces.ExecutionStatistics;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ExecutionStatisticsImpl implements ExecutionStatistics {
@@ -45,18 +44,6 @@ public class ExecutionStatisticsImpl implements ExecutionStatistics {
         }
         avgTime = avgTime / timeExecutionList.size();
         return avgTime;
-    }
-
-    private int getMedian() {
-        Integer[] timeArray = timeExecutionList.toArray(new Integer[timeExecutionList.size()]);
-        Arrays.sort(timeArray);
-        double median;
-        if (timeArray.length % 2 == 0) {
-            median = ((double) timeArray[timeArray.length / 2] + (double) timeArray[timeArray.length / 2 - 1]) / 2;
-        } else {
-            median = timeArray[timeArray.length / 2];
-        }
-        return (int) median;
     }
 
     public void setTimeExecutionList(List<Integer> timeExecutionList) {

@@ -11,15 +11,17 @@ public class MagicCube {
         this.n = n;
     }
 
-    public int[][] findMagicCube() {
+    public int[][] findMagicCube() throws InterruptedException {
         int[][] a = new int[n][n];
         boolean isMagicCube = false;
 
+        int exceptionCount = 0;
         while (!isMagicCube) {
+            exceptionCount++;
             for (int i = 0; i < a.length; i++) {
                 for (int j = 0; j < a.length; j++) {
 //                a[i][j] = 2;
-                    a[i][j] = getRandom(1, 5);
+                    a[i][j] = getRandom(1, 3);
                     isMagicCube = isMagicCube(a);
                     if (isMagicCube) {
                         break;
@@ -28,6 +30,10 @@ public class MagicCube {
                 if (isMagicCube) {
                     break;
                 }
+            }
+//            System.out.println(exceptionCount);
+            if (exceptionCount > 150000) {
+                throw new InterruptedException();
             }
         }
 

@@ -11,7 +11,8 @@ import java.util.List;
 
 public class ExecutionManagerImpl implements ExecutionManager {
     private List<Runnable> taskList;
-    public static List<Integer> timeExecutionList = new ArrayList<>();
+
+    private static volatile Integer completedTaskCount = 0;
 
     public ExecutionManagerImpl() {
 
@@ -24,26 +25,9 @@ public class ExecutionManagerImpl implements ExecutionManager {
         ExecutionStatisticsImpl statistics = new ExecutionStatisticsImpl();
 
         ContextImpl context = new ContextImpl();
+        context.setRunnableList(taskList);
 
-        timeExecutionList.add(0);
-
-//        Iterator<Runnable> runnableIterator = taskList.iterator();
-//        while (runnableIterator.hasNext()) {
-//            Runnable r = runnableIterator.next();
-//            if (r instanceof ThreadPimage) {
-//                ThreadPimage thread = (ThreadPimage) r;
-////                r.run();
-//                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
-//                thread.start();
-//                timeExecutionList.add(thread.getTimeExecution());
-//            } else if (r instanceof ThreadMagicCube) {
-//                ThreadMagicCube thread = (ThreadMagicCube) r;
-////                r.run();
-//                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
-//                thread.start();
-//                timeExecutionList.add(thread.getTimeExecution());
-//            }
-//        }
+        context.timeExecutionList.add(0);
 
         Iterator<Runnable> runnableIterator = taskList.iterator();
         while (runnableIterator.hasNext()) {
@@ -52,9 +36,16 @@ public class ExecutionManagerImpl implements ExecutionManager {
             thread.start();
         }
 
-        statistics.setTimeExecutionList(timeExecutionList);
+        statistics.setTimeExecutionList(context.timeExecutionList);
         context.setStatistics(statistics);
         return context;
     }
 
+    public static Integer getCompletedTaskCount() {
+        return completedTaskCount;
+    }
+
+    public static void upCompletedTaskCount() {
+        ExecutionManagerImpl.completedTaskCount++;
+    }
 }

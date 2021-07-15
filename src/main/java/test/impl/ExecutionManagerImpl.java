@@ -29,9 +29,15 @@ public class ExecutionManagerImpl implements ExecutionManager {
 
         context.timeExecutionList.add(0);
 
-        Iterator<Runnable> runnableIterator = taskList.iterator();
-        while (runnableIterator.hasNext()) {
-            Runnable r = runnableIterator.next();
+//        Iterator<Runnable> runnableIterator = taskList.iterator();
+//        while (runnableIterator.hasNext()) {
+//            Runnable r = runnableIterator.next();
+//            Thread thread = new Thread(r);
+//            thread.start();
+//        }
+
+        for (int j = 0; j < taskList.size() - 1; j++) {
+            Runnable r = taskList.get(j);
             Thread thread = new Thread(r);
             thread.start();
         }

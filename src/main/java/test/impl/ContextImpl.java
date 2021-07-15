@@ -12,8 +12,12 @@ public class ContextImpl implements Context {
     private ExecutionStatistics statistics;
     private volatile int completedTaskCount;
     private volatile int failedTaskCount;
+    private volatile int interruptedTaskCount;
     public static List<Integer> timeExecutionList = new ArrayList<>();
     private List<Runnable> runnableList = new ArrayList<>();
+    public static Runnable callback;
+    public static volatile int taskSize = 0;
+    public static volatile int n = 0;
 
 
     public ContextImpl() {
@@ -55,17 +59,49 @@ public class ContextImpl implements Context {
 
     @Override
     public int getInterruptedTaskCount() {
-        return 0;
+        interruptedTaskCount = 0;
+        Iterator<Runnable> runnableIterator = runnableList.iterator();
+        while (runnableIterator.hasNext()) {
+            Runnable runnable = runnableIterator.next();
+            if (runnable instanceof MagicRunnable) {
+                MagicRunnable magicRunnable = (MagicRunnable) runnable;
+                if (magicRunnable.isInterrupt()) {
+                    interruptedTaskCount++;
+                }
+            }
+        }
+        return interruptedTaskCount;
     }
 
     @Override
     public void interrupt() {
-
+        Iterator<Runnable> runnableIterator = runnableList.iterator();
+        while (runnableIterator.hasNext()) {
+            Runnable runnable = runnableIterator.next();
+            if (runnable instanceof MagicRunnable) {
+                MagicRunnable magicRunnable = (MagicRunnable) runnable;
+                if (magicRunnable.isAwait()) {
+                    magicRunnable.setInterrupt(true);
+                }
+            }
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        int aliveTasks = 0;
+        Iterator<Runnable> runnableIterator = runnableList.iterator();
+        while (runnableIterator.hasNext()) {
+            Runnable runnable = runnableIterator.next();
+            if (runnable instanceof MagicRunnable) {
+                MagicRunnable magicRunnable = (MagicRunnable) runnable;
+                if (magicRunnable.isAlive()) {
+                    aliveTasks++;
+                }
+            }
+        }
+
+        return !(aliveTasks > 0);
     }
 
     @Override
@@ -92,6 +128,7 @@ public class ContextImpl implements Context {
     }
 
     public void setRunnableList(List<Runnable> runnableList) {
+        taskSize = runnableList.size();
         this.runnableList = runnableList;
     }
 }

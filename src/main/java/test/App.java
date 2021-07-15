@@ -49,7 +49,11 @@ public class App extends PApplet {
         ExecutionStatistics statistics = context.getStatistics();
         contextInfo = statistics.toString() + " \n " +
                 "complete tasks = " + context.getCompletedTaskCount() + " \n " +
-                "failed tasks = " + context.getFailedTaskCount();
+                "failed tasks = " + context.getFailedTaskCount() + " \n " +
+                " is finished = " + context.isFinished();
+        context.interrupt();
+        System.out.println("interrutped tasks = " + context.getInterruptedTaskCount());
         System.out.println(contextInfo);
+
     }
 }

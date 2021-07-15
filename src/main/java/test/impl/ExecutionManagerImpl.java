@@ -6,6 +6,7 @@ import test.interfaces.ExecutionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class ExecutionManagerImpl implements ExecutionManager {
@@ -25,51 +26,25 @@ public class ExecutionManagerImpl implements ExecutionManager {
         List<Integer> timeExecutionList = new ArrayList<>();
         ContextImpl context = new ContextImpl();
 
-//        Iterator<Runnable> runnableIterator = taskList.iterator();
-//        while (runnableIterator.hasNext()) {
-//            Runnable r = runnableIterator.next();
-//            if (r instanceof ThreadPimage) {
-//                ThreadPimage thread = (ThreadPimage) r;
-//                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
+        Iterator<Runnable> runnableIterator = taskList.iterator();
+        while (runnableIterator.hasNext()) {
+            Runnable r = runnableIterator.next();
+            if (r instanceof ThreadPimage) {
+                ThreadPimage thread = (ThreadPimage) r;
 //                r.run();
-//                timeExecutionList.add(thread.getTimeExecution());
-//            } else if (r instanceof ThreadMagicCube) {
-//                ThreadMagicCube thread = (ThreadMagicCube) r;
-//                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
+                thread.start();
+                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
+                timeExecutionList.add(thread.getTimeExecution());
+            } else if (r instanceof ThreadMagicCube) {
+                ThreadMagicCube thread = (ThreadMagicCube) r;
 //                r.run();
-//                timeExecutionList.add(thread.getTimeExecution());
-//            }
-//        }
-
-        timeExecutionList.add(0);
-        Runnable r = tasks[0];
-        if (r instanceof ThreadMagicCube) {
-            ThreadMagicCube thread = (ThreadMagicCube) r;
-            System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
-            r.run();
-            timeExecutionList.add(thread.getTimeExecution());
+                thread.start();
+                System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
+                timeExecutionList.add(thread.getTimeExecution());
+            }
         }
-
-        r = tasks[1];
-        if (r instanceof ThreadMagicCube) {
-            ThreadMagicCube thread = (ThreadMagicCube) r;
-            System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
-            r.run();
-            timeExecutionList.add(thread.getTimeExecution());
-        }
-
-        r = tasks[2];
-        if (r instanceof ThreadMagicCube) {
-            ThreadMagicCube thread = (ThreadMagicCube) r;
-            System.out.println("name = " + thread.getName() + " \t isAlive = " + thread.isAlive());
-            r.run();
-            timeExecutionList.add(thread.getTimeExecution());
-        }
-
-
 
         statistics.setTimeExecutionList(timeExecutionList);
-
         context.setStatistics(statistics);
         return context;
     }
